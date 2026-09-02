@@ -39,3 +39,5 @@ You'll find:
 
 
 ps - I used Ai with the image generation for the banner and to help me plan my project layout, I also used ai to debug my program and add small suggestions it had.
+pss - i also used it to help me write descriptions and the readme
+psss - this line of text wasnt written with ai.
