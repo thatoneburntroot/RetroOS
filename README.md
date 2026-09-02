@@ -32,3 +32,10 @@ You'll find:
 **The computer is waiting.**
 
 ***What will you find?***
+
+
+
+
+
+
+ps - I used Ai with the image generation for the banner and to help me plan my project layout, I also used ai to debug my program and add small suggestions it had.
