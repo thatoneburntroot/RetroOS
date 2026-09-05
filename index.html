@@ -1,1013 +1,715 @@
-* {
-    box-sizing: border-box;
-    user-select: none;
-}
+<!DOCTYPE html>
+<html lang="en">
 
-html,
-body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #171717;
-    font-family: Tahoma, Arial, sans-serif;
-}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>RetroOS</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-/* =========================================================
-   COMPUTER
-========================================================= */
 
-.computer {
-    width: 100vw;
-    height: 100vh;
-    padding: 25px;
+<body>
 
-    display: flex;
-    gap: 20px;
+<div class="computer">
 
-    background: linear-gradient(
-        145deg,
-        #c8c0b2,
-        #817867
-    );
 
-    border-radius: 18px;
+    <div class="monitor">
 
-    box-shadow:
-        inset 0 0 35px #514a40;
-}
 
+        <div
+            class="desktop"
+            id="desktop">
 
-/* =========================================================
-   MONITOR
-========================================================= */
+            <div class="boot-screen" id="bootScreen">
 
-.monitor {
-    flex: 1;
-    min-width: 0;
+            <div id="bootText"></div>
 
-    position: relative;
-    overflow: hidden;
+            </div>
 
-    border-radius: 25px;
+            <div class="icons">
 
-    background: #000;
 
-    box-shadow:
-        inset 0 0 45px #000,
-        0 0 15px #000;
-}
+                <div
+                    class="icon"
+                    ondblclick="openWindow('browser')">
 
+                    <span class="icon-img">
+                        🌐
+                    </span>
 
-/* =========================================================
-   DESKTOP
-========================================================= */
+                    Internet
 
-.desktop {
-    position: absolute;
-    inset: 0;
+                </div>
 
-    overflow: hidden;
 
-    background: linear-gradient(
-        135deg,
-        #126b2b,
-        #08752a
-    );
+                <div
+                    class="icon"
+                    ondblclick="openWindow('notepad')">
 
-    color: white;
-}
+                    <span class="icon-img">
+                        📝
+                    </span>
 
+                    Notepad
 
-/* =========================================================
-   DESKTOP ICONS
-========================================================= */
+                </div>
 
-.icons {
-    position: absolute;
 
-    left: 12px;
-    top: 12px;
-    bottom: 48px;
+                <div
+                    class="icon"
+                    ondblclick="openWindow('files')">
 
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+                    <span class="icon-img">
+                        📁
+                    </span>
 
-    z-index: 2;
-}
+                    My Computer
 
-.icon {
-    width: 80px;
-    padding: 4px;
+                </div>
 
-    text-align: center;
 
-    color: white;
+                <div
+                    class="icon"
+                    ondblclick="openWindow('ide')">
 
-    font-size: 12px;
+                    <span class="icon-img">
+                        💻
+                    </span>
 
-    text-shadow: 1px 1px #000;
+                    IDE
 
-    cursor: pointer;
-}
+                </div>
 
-.icon:hover {
-    background: rgba(0, 0, 128, .45);
-}
 
-.icon-img {
-    display: block;
+                <div
+                    class="icon"
+                    ondblclick="openWindow('readme')">
 
-    font-size: 32px;
+                    <span class="icon-img">
+                        📄
+                    </span>
 
-    margin-bottom: 3px;
-}
+                    README
 
+                </div>
 
-/* =========================================================
-   WINDOWS
-========================================================= */
 
-.window {
-    position: absolute;
+            </div>
 
-    display: none;
 
-    width: 400px;
-    height: 280px;
+            <div
+                class="window"
+                id="browser">
 
-    background: #c0c0c0;
 
-    border: 2px solid;
+                <div class="titlebar">
 
-    border-color:
-        #fff
-        #404040
-        #404040
-        #fff;
+                    <span>
+                        Internet
+                    </span>
 
-    box-shadow:
-        5px 5px 0 rgba(0, 0, 0, .35);
 
-    color: #000;
+                    <div class="winbuttons">
 
-    z-index: 10;
-}
+                        <button
+                            class="wbtn"
+                            onclick="minimizeWindow('browser')">
+                            _
+                        </button>
 
+                        <button
+                            class="wbtn"
+                            onclick="maximizeWindow('browser')">
+                            □
+                        </button>
 
-/* =========================================================
-   TITLE BAR
-========================================================= */
+                        <button
+                            class="wbtn"
+                            onclick="closeWindow('browser')">
+                            X
+                        </button>
 
-.titlebar {
-    height: 25px;
+                    </div>
 
-    padding: 3px 4px;
+                </div>
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    background: #000080;
+                <div class="content">
 
-    color: white;
 
-    font-size: 12px;
-    font-weight: bold;
+                    <div class="browser-bar">
 
-    cursor: move;
-}
+                        <input
+                            id="url"
+                            value="https://example.com">
 
-.titlebar.inactive {
-    background: #808080;
-}
 
+                        <button
+                            onclick="searchWebsite()">
 
-/* =========================================================
-   WINDOW BUTTONS
-========================================================= */
+                            Go
 
-.winbuttons {
-    display: flex;
-    gap: 2px;
-}
+                        </button>
 
-.wbtn {
-    width: 20px;
-    height: 18px;
+                    </div>
 
-    padding: 0;
 
-    background: #c0c0c0;
-    color: #000;
+                    <div
+                        class="browser-page"
+                        id="browserPage">
 
-    border: 2px solid;
+                        <div class="unavailable">
 
-    border-color:
-        #fff
-        #404040
-        #404040
-        #fff;
+                            <h2>
+                                Retro Internet
+                            </h2>
 
-    font-size: 11px;
-    font-weight: bold;
+                            <p>
+                                Enter a website above.
+                            </p>
 
-    line-height: 12px;
+                        </div>
 
-    cursor: pointer;
-}
+                    </div>
 
-.wbtn:active {
-    border-color:
-        #404040
-        #fff
-        #fff
-        #404040;
-}
 
+                </div>
 
-/* =========================================================
-   CONTENT
-========================================================= */
+            </div>
 
-.content {
-    height: calc(100% - 25px);
 
-    padding: 8px;
 
-    overflow: auto;
+            <div
+                class="window"
+                id="notepad">
 
-    background: white;
-}
 
+                <div class="titlebar">
 
-/* =========================================================
-   START MENU
-========================================================= */
+                    <span>
+                        Notepad
+                    </span>
 
-.menu {
-    position: absolute;
 
-    left: 3px;
-    bottom: 40px;
+                    <div class="winbuttons">
 
-    width: 230px;
+                        <button
+                            class="wbtn"
+                            onclick="minimizeWindow('notepad')">
+                            _
+                        </button>
 
-    display: none;
+                        <button
+                            class="wbtn"
+                            onclick="maximizeWindow('notepad')">
+                            □
+                        </button>
 
-    background: #c0c0c0;
+                        <button
+                            class="wbtn"
+                            onclick="closeWindow('notepad')">
+                            X
+                        </button>
 
-    border: 2px solid;
+                    </div>
 
-    border-color:
-        #fff
-        #404040
-        #404040
-        #fff;
+                </div>
 
-    box-shadow:
-        4px 4px 0 #222;
 
-    color: #000;
+                <div class="content">
 
-    z-index: 3000;
-}
+                    <textarea
+                        class="notepad">Welcome to RetroOS!
 
-.menu.open {
-    display: block;
-}
+This is Notepad.
 
-.menu-head {
-    padding: 10px;
+Write anything here.</textarea>
 
-    background: #000080;
+                </div>
 
-    color: white;
+            </div>
 
-    font-size: 18px;
-    font-weight: bold;
-}
+            <div
+                class="window"
+                id="files">
 
-.menu-item {
-    padding: 9px 12px;
 
-    font-size: 13px;
+                <div class="titlebar">
 
-    cursor: pointer;
-}
+                    <span>
+                        My Computer
+                    </span>
 
-.menu-item:hover {
-    background: #000080;
-    color: white;
-}
 
-.menu-sep {
-    margin: 2px 0;
+                    <div class="winbuttons">
 
-    border-top: 1px solid #808080;
-    border-bottom: 1px solid white;
-}
+                        <button
+                            class="wbtn"
+                            onclick="minimizeWindow('files')">
+                            _
+                        </button>
 
+                        <button
+                            class="wbtn"
+                            onclick="maximizeWindow('files')">
+                            □
+                        </button>
 
-/* =========================================================
-   TASKBAR
-========================================================= */
+                        <button
+                            class="wbtn"
+                            onclick="closeWindow('files')">
+                            X
+                        </button>
 
-.taskbar {
-    position: absolute;
+                    </div>
 
-    left: 0;
-    right: 0;
-    bottom: 0;
+                </div>
 
-    height: 40px;
 
-    display: flex;
-    align-items: center;
+                <div class="content files">
 
-    padding: 3px;
+                    <h3>
+                        My Computer
+                    </h3>
 
-    background: #c0c0c0;
+                    <div>
+                        💾 Local Disk (C:)
+                    </div>
 
-    border-top: 2px solid white;
+                    <div>
+                        📁 My Documents
+                    </div>
 
-    color: #000;
+                    <div>
+                        📁 Downloads
+                    </div>
 
-    z-index: 2500;
-}
+                    <div>
+                        📁 Pictures
+                    </div>
 
-.start {
-    height: 32px;
+                    <div>
+                        🗑️ Recycle Bin
+                    </div>
 
-    padding: 0 12px;
+                    <div>
+                        📄 README.txt
+                    </div>
 
-    background: #c0c0c0;
+                </div>
 
-    border: 2px solid;
+            </div>
 
-    border-color:
-        #fff
-        #404040
-        #404040
-        #fff;
 
-    font-weight: bold;
+            <div
+                class="window"
+                id="ide">
 
-    cursor: pointer;
-}
 
-.start:active {
-    border-color:
-        #404040
-        #fff
-        #fff
-        #404040;
-}
+                <div class="titlebar">
 
-.tasks {
-    display: flex;
+                    <span>
+                        RetroIDE
+                    </span>
 
-    gap: 4px;
 
-    margin-left: 5px;
+                    <div class="winbuttons">
 
-    min-width: 0;
+                        <button
+                            class="wbtn"
+                            onclick="minimizeWindow('ide')">
+                            _
+                        </button>
 
-    overflow: hidden;
-}
+                        <button
+                            class="wbtn"
+                            onclick="maximizeWindow('ide')">
+                            □
+                        </button>
 
-.task {
-    height: 30px;
+                        <button
+                            class="wbtn"
+                            onclick="closeWindow('ide')">
+                            X
+                        </button>
 
-    min-width: 95px;
-    max-width: 145px;
+                    </div>
 
-    padding: 5px 8px;
+                </div>
 
-    overflow: hidden;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
+                <div class="content">
 
-    background: #c0c0c0;
 
-    border: 2px inset #aaa;
+                    <div class="ide">
 
-    font-size: 11px;
 
-    cursor: pointer;
-}
+                        <div class="ide-top">
 
-.task.active {
-    font-weight: bold;
 
-    border: 2px inset #404040;
-}
+                            <input
+                                class="ide-name"
+                                id="ideName"
+                                value="index.html">
 
 
-/* =========================================================
-   VOLUME
-========================================================= */
+                            <button
+                                onclick="runIDE()">
 
-.volume {
-    display: flex;
+                                Run
 
-    align-items: center;
+                            </button>
 
-    gap: 5px;
 
-    margin-left: auto;
+                            <button
+                                onclick="saveIDE()">
 
-    padding: 0 6px;
-}
+                                Save
 
-.volume input {
-    width: 75px;
+                            </button>
 
-    cursor: pointer;
-}
 
+                        </div>
 
-/* =========================================================
-   CLOCK
-========================================================= */
 
-.clock {
-    padding: 6px 8px;
+                        <textarea
+                            class="code"
+                            id="codeEditor"><!DOCTYPE html>
 
-    border: 2px inset #aaa;
+<html>
 
-    font: 11px monospace;
-}
+<body>
 
+<h1>Hello RetroOS!</h1>
 
-/* =========================================================
-   POWER BUTTON
-========================================================= */
+<p>Edit this code and press Run.</p>
 
-.power {
-    width: 30px;
-    height: 30px;
+</body>
 
-    display: flex;
+</html></textarea>
 
-    align-items: center;
-    justify-content: center;
 
-    font-size: 21px;
+                    </div>
 
-    color: #222;
+                </div>
 
-    cursor: pointer;
-}
+            </div>
 
-.power:hover {
-    color: #800000;
-}
 
+            <div
+                class="window"
+                id="readme">
 
-/* =========================================================
-   BOOT / POWER SCREEN
-========================================================= */
 
-.boot-screen {
-    position: absolute;
+                <div class="titlebar">
 
-    inset: 0;
+                    <span>
+                        README.txt
+                    </span>
 
-    display: flex;
 
-    flex-direction: column;
+                    <div class="winbuttons">
 
-    padding: 35px;
+                        <button
+                            class="wbtn"
+                            onclick="minimizeWindow('readme')">
+                            _
+                        </button>
 
-    background: #000;
+                        <button
+                            class="wbtn"
+                            onclick="maximizeWindow('readme')">
+                            □
+                        </button>
 
-    color: #00ff66;
+                        <button
+                            class="wbtn"
+                            onclick="closeWindow('readme')">
+                            X
+                        </button>
 
-    font-family: "Courier New", monospace;
+                    </div>
 
-    font-size: 14px;
+                </div>
 
-    z-index: 10000;
 
-    overflow: hidden;
+                <div class="content">
 
-    transform-origin: center;
-}
 
+<pre style="
+white-space:pre-wrap;
+font:13px monospace;
+">RETROOS README
 
-/*
-   IMPORTANT:
+==============================
 
-   The boot screen is visible by default.
+WELCOME TO RETROOS
 
-   This prevents the desktop from appearing
-   for even a fraction of a second.
-*/
+A simple old-school computer
+operating system built entirely
+with HTML, CSS and JavaScript.
 
-.boot-screen.hidden {
-    display: none;
-}
+==============================
 
+HOW TO USE
 
-/* =========================================================
-   BOOT TEXT
-========================================================= */
+Double-click a desktop icon
+to open an application.
 
-.boot-line {
-    margin-bottom: 5px;
-}
+Drag windows by their title bar.
 
+_ = Minimize
 
-/* =========================================================
-   CRT TURN ON
-========================================================= */
+□ = Maximize
 
-.boot-screen.crt-on {
-    animation:
-        crtTurnOn 1s ease-out forwards;
-}
+X = Close
 
-@keyframes crtTurnOn {
+Use the taskbar to switch
+between open applications.
 
-    0% {
-        transform: scaleY(.01);
+Click START to open the
+RetroOS Start Menu.
 
-        filter: brightness(2);
-    }
+Use the volume slider on the
+right side of the taskbar.
 
-    25% {
-        transform: scaleY(.01);
+Click the power button to
+turn the computer off.
 
-        filter: brightness(2);
-    }
+Click the black screen to
+turn it back on.
 
-    55% {
-        transform: scaleY(1);
+==============================
 
-        filter: brightness(2);
-    }
+APPLICATIONS
 
-    70% {
-        filter: brightness(.6);
-    }
+🌐 Internet
+Shows websites as unavailable.
 
-    82% {
-        filter: brightness(1.5);
-    }
+📝 Notepad
+A simple text editor.
 
-    100% {
-        transform: scaleY(1);
+📁 My Computer
+Displays the RetroOS file system.
 
-        filter: brightness(1);
-    }
-}
+💻 RetroIDE
+Write and preview HTML.
 
+📄 README
+This document.
 
-/* =========================================================
-   CRT TURN OFF
-========================================================= */
+==============================
 
-.boot-screen.crt-off {
-    animation:
-        crtTurnOff .9s ease-in forwards;
-}
+RETROIDE
 
-@keyframes crtTurnOff {
+Write HTML inside the editor.
 
-    0% {
-        transform: scaleY(1);
+Press RUN to open your
+website in a new browser tab.
 
-        filter: brightness(1);
-    }
+Press SAVE to store your
+code in local storage.
 
-    25% {
-        filter: brightness(1.7);
-    }
+==============================
 
-    55% {
-        filter: brightness(2);
+Enjoy RetroOS!
+</pre>
 
-        transform: scaleY(.02);
-    }
 
-    75% {
-        transform: scaleY(.02);
+                </div>
 
-        filter: brightness(1);
-    }
+            </div>
 
-    100% {
-        transform: scaleY(0);
-    }
-}
 
+            <div
+                class="menu"
+                id="startMenu">
 
-/* =========================================================
-   POWERED OFF SCREEN
 
-   This is what stays on the screen after
-   the CRT shutdown animation finishes.
-========================================================= */
+                <div class="menu-head">
+                    RetroOS
+                </div>
 
-.boot-screen.powered-off {
-    display: flex;
 
-    transform: scaleY(1);
+                <div
+                    class="menu-item"
+                    onclick="
+                        openWindow('browser');
+                        toggleStart();
+                    ">
 
-    background: #000;
+                    🌐 Internet
 
-    color: #000;
+                </div>
 
-    animation: none;
 
-    cursor: pointer;
-}
+                <div
+                    class="menu-item"
+                    onclick="
+                        openWindow('notepad');
+                        toggleStart();
+                    ">
 
+                    📝 Notepad
 
-/* =========================================================
-   POWER SYMBOL ON BLACK SCREEN
-========================================================= */
+                </div>
 
-.off-power {
 
-    position: absolute;
+                <div
+                    class="menu-item"
+                    onclick="
+                        openWindow('files');
+                        toggleStart();
+                    ">
 
-    left: 50%;
-    top: 50%;
+                    📁 My Computer
 
-    transform: translate(
-        -50%,
-        -50%
-    );
+                </div>
 
-    color: #111;
 
-    font-family: Arial, sans-serif;
+                <div
+                    class="menu-item"
+                    onclick="
+                        openWindow('ide');
+                        toggleStart();
+                    ">
 
-    font-size: 38px;
+                    💻 RetroIDE
 
-    opacity: .15;
+                </div>
 
-    animation:
-        powerFlicker 2.5s infinite;
 
-}
+                <div
+                    class="menu-item"
+                    onclick="
+                        openWindow('readme');
+                        toggleStart();
+                    ">
 
+                    📄 README
 
-/*
-   Slow irregular CRT power light flicker.
-*/
+                </div>
 
-@keyframes powerFlicker {
 
-    0% {
-        opacity: .08;
-    }
+                <div class="menu-sep"></div>
 
-    10% {
-        opacity: .2;
-    }
 
-    12% {
-        opacity: .05;
-    }
+                <div
+                    class="menu-item"
+                    onclick="powerOff()">
 
-    25% {
-        opacity: .15;
-    }
+                    ⏻ Shut Down
 
-    27% {
-        opacity: .04;
-    }
+                </div>
 
-    40% {
-        opacity: .18;
-    }
 
-    41% {
-        opacity: .07;
-    }
+            </div>
 
-    60% {
-        opacity: .13;
-    }
 
-    75% {
-        opacity: .04;
-    }
 
-    85% {
-        opacity: .2;
-    }
+            <div class="taskbar">
 
-    100% {
-        opacity: .08;
-    }
-}
 
+                <button
+                    class="start"
+                    onclick="toggleStart()">
 
-/* =========================================================
-   CRT FLICKER
-========================================================= */
+                    START
 
-.crt-flicker {
-    animation:
-        flicker .12s linear 4;
-}
+                </button>
 
-@keyframes flicker {
 
-    0% {
-        opacity: 1;
-    }
+                <div
+                    class="tasks"
+                    id="tasks">
+                </div>
 
-    25% {
-        opacity: .65;
-    }
 
-    50% {
-        opacity: 1;
-    }
+                <div class="volume">
 
-    75% {
-        opacity: .35;
-    }
+                    🔊
 
-    100% {
-        opacity: 1;
-    }
-}
+                    <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="65">
 
+                </div>
 
-/* =========================================================
-   BROWSER
-========================================================= */
 
-.browser-bar {
-    display: flex;
+                <div
+                    class="clock"
+                    id="clock">
+                </div>
 
-    gap: 5px;
 
-    margin-bottom: 7px;
-}
+                <div
+                    class="power"
+                    onclick="powerOff()"
+                    title="Power">
 
-.browser-bar input {
-    flex: 1;
+                    ⏻
 
-    padding: 4px;
+                </div>
 
-    border: 2px inset #aaa;
-}
 
-.browser-bar button {
-    padding: 3px 9px;
+            </div>
 
-    background: #c0c0c0;
 
-    border: 2px solid;
 
-    border-color:
-        #fff
-        #404040
-        #404040
-        #fff;
+            <div
+                class="powered-off"
+                id="offScreen">
+            </div>
 
-    cursor: pointer;
-}
 
-.browser-page {
-    height: calc(100% - 37px);
+        </div>
 
-    padding: 15px;
 
-    overflow: auto;
 
-    background: white;
 
-    border: 2px inset #aaa;
-}
+        <div class="scanlines"></div>
 
-.unavailable {
-    margin-top: 55px;
 
-    text-align: center;
+    </div>
 
-    font-family: monospace;
-}
 
 
-/* =========================================================
-   NOTEPAD
-========================================================= */
+    <div class="controls">
 
-.notepad {
-    width: 100%;
-    height: 100%;
 
-    resize: none;
+        <div class="brand">
+            RETROOS
+        </div>
 
-    padding: 5px;
 
-    background: white;
-    color: black;
+        <div class="speaker"></div>
 
-    border: 2px inset #aaa;
 
-    outline: none;
+        <div style="
+            margin-top:20px;
+            color:#292722;
+            font-size:10px;
+            font-weight:bold;
+        ">
 
-    font:
-        13px "Courier New",
-        monospace;
-}
+            PERSONAL COMPUTER
 
+        </div>
 
-/* =========================================================
-   FILES
-========================================================= */
 
-.files div {
-    padding: 6px;
+    </div>
 
-    border-bottom:
-        1px dotted #aaa;
-}
 
+</div>
 
-/* =========================================================
-   IDE
-========================================================= */
 
-.ide {
-    height: 100%;
 
-    display: flex;
+<script src="script.js"></script>
 
-    flex-direction: column;
+</body>
+</html>
 
-    gap: 5px;
-}
-
-.ide-top {
-    display: flex;
-
-    gap: 5px;
-}
-
-.ide-name {
-    flex: 1;
-
-    padding: 4px;
-
-    border: 2px inset #aaa;
-
-    font: 12px monospace;
-}
-
-.ide-top button {
-    padding: 3px 8px;
-
-    background: #c0c0c0;
-
-    border: 2px solid;
-
-    border-color:
-        #fff
-        #404040
-        #404040
-        #fff;
-
-    cursor: pointer;
-}
-
-.code {
-    flex: 1;
-
-    width: 100%;
-
-    resize: none;
-
-    padding: 8px;
-
-    background: #111;
-
-    color: #ddd;
-
-    border: 2px inset #aaa;
-
-    outline: none;
-
-    font:
-        13px Consolas,
-        monospace;
-}
-
-
-/* =========================================================
-   SIDE PANEL
-========================================================= */
-
-.controls {
-    width: 145px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    padding-top: 25px;
-}
-
-.brand {
-    margin-bottom: 45px;
-
-    color: #292722;
-
-    font-size: 25px;
-
-    font-weight: bold;
-
-    letter-spacing: 3px;
-}
-
-.speaker {
-    width: 100px;
-    height: 170px;
-
-    margin-top: 30px;
-
-    opacity: .7;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            #292722 0 3px,
-            transparent 3px 8px
-        );
-}
-
-
-/* =========================================================
-   CRT SCANLINES
-========================================================= */
-
-.scanlines {
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    z-index: 5000;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,.025) 0,
-            rgba(255,255,255,.025) 1px,
-            rgba(0,0,0,.08) 2px,
-            rgba(0,0,0,.08) 4px
-        );
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width: 900px) {
-
-    .computer {
-        padding: 15px;
-        gap: 10px;
-    }
-
-    .controls {
-        width: 110px;
-    }
-
-    .window {
-        width: 360px;
-        height: 250px;
-    }
-}
-
-@media(max-width: 650px) {
-
-    .controls {
-        display: none;
-    }
-
-    .computer {
-        padding: 10px;
-    }
-
-    .boot-screen {
-        padding: 20px;
-        font-size: 11px;
-    }
-}
