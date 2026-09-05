@@ -1,6 +1,3 @@
-/* =========================================================
-   RETROOS
-========================================================= */
 
 let topZ = 20;
 const windows = [...document.querySelectorAll('.window')];
@@ -26,9 +23,6 @@ document.addEventListener('mousedown',e=>{if(!e.target.closest('#startMenu')&&!e
 function escapeHtml(text){return String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function searchWebsite(){const value=document.getElementById('url').value.trim();document.getElementById('browserPage').innerHTML=`<div class="unavailable"><h2>Website unavailable</h2><p>The website is down or unavailable.</p><p style="font-size:11px">${escapeHtml(value)}</p></div>`;}
 
-/* =========================================================
-   RETROOS FILE SYSTEM
-========================================================= */
 const FILE_KEY='retroos-files';
 let retroFiles=[];
 try{retroFiles=JSON.parse(localStorage.getItem(FILE_KEY)||'[]');}catch(e){retroFiles=[];}
