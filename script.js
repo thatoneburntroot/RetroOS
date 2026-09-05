@@ -51,7 +51,7 @@ function setupFileSystemUI(){
     renderDocuments();
 }
 
-/* ---------------- SNAKE GAME ---------------- */
+/* snake thingy */
 let snakeTimer=null;
 let snakeRunning=false;
 let snakeDirection={x:1,y:0};
