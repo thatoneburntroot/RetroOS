@@ -1,4 +1,3 @@
-
 let topZ = 20;
 const windows = [...document.querySelectorAll('.window')];
 const minimized = new Set();
@@ -60,6 +59,7 @@ let snakeNextDirection={x:1,y:0};
 let snakeBody=[];
 let snakeFood={x:10,y:10};
 let snakeScore=0;
+let snakeFullscreen=false;
 const SNAKE_SIZE=20;
 const SNAKE_COLS=20;
 const SNAKE_ROWS=15;
@@ -73,12 +73,13 @@ function setupSnake(){
     win.className='window snake-window';
     win.style.display='none';
     win.style.left='300px';
-    win.style.top='180px';
+    win.style.top='120px';
     win.style.width='430px';
+    win.style.height='390px';
     win.innerHTML=`
-      <div class="titlebar"><span>Snake - RetroOS Game</span><div><button class="wbtn" onclick="minimizeWindow('snake')">_</button><button class="wbtn" onclick="closeWindow('snake')">×</button></div></div>
+      <div class="titlebar"><span>Snake - RetroOS Game</span><div><button class="wbtn" onclick="minimizeWindow('snake')">_</button><button class="wbtn" onclick="toggleSnakeFullscreen()">□</button><button class="wbtn" onclick="closeWindow('snake')">×</button></div></div>
       <div class="content snake-content">
-        <div class="snake-info"><span>Score: <b id="snakeScore">0</b></span><button onclick="startSnake()">New Game</button></div>
+        <div class="snake-info"><span>Score: <b id="snakeScore">0</b></span><div><button onclick="startSnake()">New Game</button><button onclick="toggleSnakeFullscreen()">Full Screen</button></div></div>
         <canvas id="snakeCanvas" width="400" height="300" tabindex="0"></canvas>
         <div id="snakeMessage" class="snake-message">Press New Game to start</div>
         <div class="snake-controls">Use ↑ ↓ ← → or W A S D</div>
@@ -89,7 +90,7 @@ function setupSnake(){
     title.addEventListener('mousedown',e=>{
         if(e.target.classList.contains('wbtn'))return;
         bringToFront(win);
-        if(win.dataset.maximized==='1')return;
+        if(win.dataset.maximized==='1'||snakeFullscreen)return;
         win.dataset.userMoved='1';
         const sx=e.clientX,sy=e.clientY,sl=win.offsetLeft,st=win.offsetTop;
         const move=ev=>{const d=document.getElementById('desktop'),maxL=Math.max(0,d.clientWidth-win.offsetWidth-2),maxT=Math.max(0,d.clientHeight-40-win.offsetHeight-2);win.style.left=Math.max(0,Math.min(maxL,sl+ev.clientX-sx))+'px';win.style.top=Math.max(0,Math.min(maxT,st+ev.clientY-sy))+'px';};
@@ -104,6 +105,35 @@ function setupSnake(){
 }
 
 function openSnake(){if(!computerPoweredOn)return;setupSnake();openWindow('snake');document.getElementById('snakeCanvas').focus();}
+function toggleSnakeFullscreen(){
+    const win=document.getElementById('snake');
+    if(!win)return;
+    if(!snakeFullscreen){
+        win.dataset.oldLeft=win.style.left;win.dataset.oldTop=win.style.top;win.dataset.oldWidth=win.style.width;win.dataset.oldHeight=win.style.height;
+        win.style.left='5px';win.style.top='5px';win.style.width='calc(100% - 10px)';win.style.height='calc(100% - 50px)';
+        win.classList.add('snake-fullscreen');
+        snakeFullscreen=true;
+    }else{
+        win.style.left=win.dataset.oldLeft||'300px';win.style.top=win.dataset.oldTop||'120px';win.style.width=win.dataset.oldWidth||'430px';win.style.height=win.dataset.oldHeight||'390px';
+        win.classList.remove('snake-fullscreen');
+        snakeFullscreen=false;
+    }
+    bringToFront(win);
+    resizeSnakeCanvas();
+    document.getElementById('snakeCanvas').focus();
+}
+function resizeSnakeCanvas(){
+    const canvas=document.getElementById('snakeCanvas');
+    const content=document.querySelector('#snake .snake-content');
+    if(!canvas||!content)return;
+    if(snakeFullscreen){
+        const maxW=Math.max(400,Math.min(content.clientWidth-20,800));
+        const maxH=Math.max(300,Math.min(content.clientHeight-85,600));
+        const scale=Math.min(maxW/400,maxH/300);
+        canvas.style.width=Math.floor(400*scale)+'px';
+        canvas.style.height=Math.floor(300*scale)+'px';
+    }else{canvas.style.width='400px';canvas.style.height='300px';}
+}
 function startSnake(){
     setupSnake();
     clearInterval(snakeTimer);
@@ -168,33 +198,32 @@ function drawSnake(gameOver=false){
 
 function addSnakeDesktopIcon(){
     if(document.getElementById('snakeDesktopIcon'))return;
-    const desktop=document.getElementById('desktop');
-    if(!desktop)return;
+    const icons=document.querySelector('.icons');
+    if(!icons)return;
     const icon=document.createElement('div');
     icon.id='snakeDesktopIcon';
-    icon.className='desktop-icon snake-icon';
-    icon.innerHTML='<div class="icon-image">🐍</div><span>Snake</span>';
+    icon.className='icon snake-icon';
+    icon.innerHTML='<span class="icon-img">🐍</span>Snake';
     icon.ondblclick=openSnake;
-    desktop.appendChild(icon);
+    icons.appendChild(icon);
 }
 function addSnakeStartMenu(){
     const menu=document.getElementById('startMenu');
     if(!menu||menu.querySelector('.snake-start-item'))return;
     const item=document.createElement('div');
-    item.className='snake-start-item';
-    item.style.cssText='padding:8px 12px;cursor:pointer;border-top:1px solid #808080;margin-top:4px;';
-    item.textContent='🐍 Snake';
+    item.className='menu-item snake-start-item';
+    item.innerHTML='🐍 Snake';
     item.onclick=()=>{menu.classList.remove('open');openSnake();};
     menu.appendChild(item);
 }
-function setupSnakeUI(){setupSnake();addSnakeDesktopIcon();addSnakeStartMenu();}
+function setupSnakeUI(){setupSnake();addSnakeDesktopIcon();addSnakeStartMenu();resizeSnakeCanvas();}
 
 function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString();}setInterval(updateClock,1000);updateClock();
 
 function bootComputer(){const boot=document.getElementById('bootScreen'),text=document.getElementById('bootText');computerPoweredOn=false;windows.forEach(w=>w.style.display='none');boot.classList.remove('hidden','powered-off','crt-off');boot.classList.add('crt-on');boot.style.transform='';boot.style.color='#00ff66';text.innerHTML='';const lines=['RETROOS BIOS v1.98','','Memory Test ............ OK','Checking Keyboard ...... OK','Detecting Hard Drive ... OK','Checking System ........ OK','','Loading RETROOS ........ OK','','Starting system...'];lines.forEach((line,i)=>setTimeout(()=>{const d=document.createElement('div');d.className='boot-line';d.textContent=line;text.appendChild(d);},450+i*220));setTimeout(()=>boot.classList.add('crt-flicker'),2800);setTimeout(()=>{setupFileSystemUI();setupSnakeUI();windows.forEach(w=>{w.style.display='block';w.style.zIndex='10';});document.getElementById('snake').style.display='none';arrangeWindows();topZ=20;refreshTasks();bringToFront(document.getElementById('browser'));computerPoweredOn=true;boot.classList.add('hidden');boot.classList.remove('crt-on','crt-flicker');},3200);}
 function powerOff(){if(!computerPoweredOn)return;stopSnake();const boot=document.getElementById('bootScreen'),text=document.getElementById('bootText');computerPoweredOn=false;document.getElementById('startMenu').classList.remove('open');boot.classList.remove('hidden','powered-off','crt-on');boot.style.transform='scaleY(1)';boot.style.color='#00ff66';text.innerHTML='<div class="boot-line">Shutting down RETROOS...</div><div class="boot-line">Saving system settings... OK</div><div class="boot-line">Closing applications... OK</div><div class="boot-line">Powering off...</div>';windows.forEach(w=>w.style.display='none');void boot.offsetWidth;boot.classList.add('crt-off');setTimeout(()=>{boot.classList.remove('crt-off');boot.classList.add('powered-off');boot.style.transform='scaleY(1)';text.innerHTML='<div class="off-power">⏻</div>';},900);}
 document.getElementById('bootScreen').addEventListener('click',function(){if(!computerPoweredOn&&this.classList.contains('powered-off')){this.classList.remove('powered-off');bootComputer();}});
-window.addEventListener('resize',()=>{if(computerPoweredOn)arrangeWindows();});
+window.addEventListener('resize',()=>{if(computerPoweredOn){arrangeWindows();resizeSnakeCanvas();}});
 windows.forEach(w=>w.style.display='none');setupFileSystemUI();setupSnakeUI();
 const oldCode=localStorage.getItem('retroos-ide');if(oldCode)document.getElementById('codeEditor').value=oldCode;
 bootComputer();
