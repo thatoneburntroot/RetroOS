@@ -1,35 +1,41 @@
-A computer from another timeline.
+The computer your parents and grandparents used.
 
 Welcome to RetroOS — a web-based operating system designed to feel like you've just switched on an old computer that somehow survived into the modern day.
 
 No Windows.
 No macOS.
-No boring desktop.
+No linux :(
 
-Just a strange little computer, sitting on your screen, waiting for you to figure out what it can do.
+Just an operating system that looks like it was probably used in ww2
 
-⚡ What is RetroOS?
+- What is RetroOS?
 
-RetroOS is an experimental WebOS built entirely for the browser.
+RetroOS is a WebOS built entirely for the browser.
 
-It recreates the feeling of using an old-school computer while adding a few modern twists.
+It recreates the feeling of using an old-school computer while also having essential apps
 
 You'll find:
 
-- 🖥️ A full desktop environment
-- 📁 A working file/storage system
-- 🪟 Movable application windows
-- ▶️ A Start Menu
-- 💻 A built-in IDE
-- 📖 A README stored inside the computer
-- 🔊 Volume controls
-- 🎨 Retro computer styling
-- 🌐 A simulated web browser
-- ⚙️ System utilities
-- 🧪 Experimental features
+-  A full desktop environment
+-  A working file/storage system
+-  Movable application windows
+-  A Start Menu
+-  A built-in IDE with saving to files and running options
+-  A README stored inside the computer to help with navigating the whole program
+-  Volume controls (not like theres anything to play but maybe in the future)
+-  Retro computer styling (kinda obvious)
+-  A simulated web browser
+-  System utilities
+-  A snake game cus thats what people used to play i guess
 
-**🖥️ Welcome to RetroOS.**
+Visit the demo page and try it out yourself!
+
 **The computer is waiting.**
+
+
+
+
+ps - ai was used to debug (obviously) and help with script.js for the starting animations however everything else was done by moi
 
 ***What will you find?***
 
